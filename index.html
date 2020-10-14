@@ -38,6 +38,11 @@
                     <section data-background="https://images.unsplash.com/photo-1576417186813-2a749d760a64?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80">
                         <h1>A1:2017-Injection</h1>
                     </section>
+                    <section>
+                        <h2>My 2 cents</h2>
+                        <p>Easy to perform, extremely dangerous.</p>
+                        <p>Modern frameworks provide very simple ways to avoid this.</p>
+                    </section>
                     <section data-auto-animate>
                         <h2>SQL Injection</h2>
                         <pre data-id="code-animation"><code class="kotlin" data-trim data-line-numbers>
@@ -93,6 +98,413 @@ class ChargeRepository(val entityManager: EntityManager) {
                     </section>
                     <section>
                         <h2>Command Injection</h2>
+                        <p>Common with file names, path, etc:</p>
+                        <pre>https://example.org/download.php?file=report.pdf</pre>
+                        <p class="fragment">Examples of malicious requests:</p>
+                        <pre class="fragment">https://example.org/download.php?file=/etc/passwd</pre>
+                        <pre class="fragment">https://example.org/download.php?file=../../config.php</pre>
+                        <pre class="fragment">https://example.org/download.php?file=foo%3Bcat%20/etc/passwd</pre>
+                    </section>
+                    <section>
+                        <h2>Command Injection</h2>
+                        <p>Prevention:</p>
+                        <ul>
+                            <li>Strict input validation (server side, of course)</li>
+                            <li>Escape every user input</li>
+                            <li>Enforce least privilege</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>It's not even over</h2>
+                        <ul>
+                            <li>ORM injection</li>
+                            <li>NoSQL injection</li>
+                            <li>Log injection</li>
+                            <li>HTML/JS/CSS injection</li>
+                            <li>XPath injection</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h1>Strict input validation</h1>
+                        <h1 class="fragment">+ Sanitize I/O data</h1>
+                    </section>
+                </section>
+                <section>
+                    <section data-background="https://images.unsplash.com/photo-1554863885-e3a33dd1bc82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjF9&auto=format&fit=crop&w=1347&q=80">
+                        <h2>A2:2017-Broken Authentication</h2>
+                    </section>
+                    <section>
+                        <h2>My 2 cents</h2>
+                        <p>Very (very) common attack.</p>
+                        <p>Not so easy to fix.</p>
+                    </section>
+                    <section>
+                        <h2>Brute force</h2>
+                        <ul>
+                            <li><a href="https://www.cs.kent.ac.uk/people/staff/ba284/Papers/SP2017-AuthorsManuscript.pdf">Crack a visa in a few seconds</a></li>
+                            <li><a href="magnet:?xt=urn:btih:5a9ba318a5478769ddc7393f1e4ac928d9aa4a71&dn=breachcompilation.txt.7z">1.4 billions of passwords breached</a></li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Don't be too nice</h2>
+                        <p>"This user doesn't exist"</p>
+                        <p class="fragment">"This is the wrong password"</p>
+                        <p class="fragment">"This password has expired"</p>
+                    </section>
+                    <section>
+                        <h2>About passwords</h2>
+                        <ul>
+                            <li>Maintain a blacklist of weak passwords</li>
+                            <li class="fragment">Ask for a minimum complexity (e.g. length)</li>
+                            <li class="fragment">Never store or log plain or weakly hashed passwords</li>
+                            <li class="fragment">Limit number of login attempts</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Session management</h2>
+                        <ul>
+                            <li>User logs in, it creates a cookie (session).</li>
+                            <li>Next request, we check the cookie and say the user is logged in.</li>
+                        </ul>
+                    </section>
+                    <section data-auto-animate data-background="https://images.unsplash.com/photo-1570303345338-e1f0eddf4946?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1930&q=80">
+                        <h2>About randomness</h2>
+                    </section>
+                    <section data-auto-animate>
+                        <h2>About randomness</h2>
+                        <p>Poor randomness leads to predictable session IDs.<p>
+                        <img src="https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/04-Authentication_Testing/images/Basm-sessid2.jpg" alt="poor randomness" />
+                        <p class="fragment">That leads to authentication.</p>
+                    </section>
+                    <section>
+                        <h2>Session management</h2>
+                        <p>Prevention time.</li>
+                        <ul>
+                            <li class="fragment">Never re-use an ID</li>
+                            <li class="fragment">Have at least 64 bits of entropy</li>
+                            <li class="fragment">Use safe cookies (secure, HttpOnly, SameSite...)</li>
+                            <li class="fragment">Use secure random cryptography</li>
+                            <li class="fragment">Invalidate session IDs</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h1>Also</h1>
+                        <p>Don't forget to implement automated tests that check failed login scenario.</p>
+                    </section>
+                </section>
+                <section>
+                    <section data-background="https://images.unsplash.com/photo-1571765466372-15f585314aae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1934&q=80">
+                        <h1>A3:2017-Sensitive Data Exposure</h1>
+                    </section>
+                    <section>
+                        <h2>My 2 cents</h2>
+                        <p>Easy to setup, quick win!</p>
+                        <p>Immensely important in PCI DSS scope :)</p>
+                    </section>
+                    <section>
+                        <h1>HTTPS</h1>
+                        <p><span class="fragment">Use it.</span> <span class="fragment">Always.</span></p>
+                    </section>
+                    <section>
+                        <h2>Best practice</h2>
+                        <ul>
+                            <li>Use HTTP Strict Transport Security (HSTS)</li>
+                            <li class="fragment">Redirect all HTTP traffic to HTTPS</li>
+                            <li class="fragment">Regularly check your TLS settings</li>
+                            <li class="fragment">Always use HTTPS.</li>
+                    </section>
+                    <section>
+                        <h2>KYD: Know Your Data</h2>
+                        <p>Classify the data, determine which data is sensitive and which is not.</p>
+                    </section>
+                    <section>
+                        <h2>Encrypt, encrypt</h2>
+                        <ul>
+                            <li>Store passwords with strong adaptive and salted hashing functions, with a delay factor (TLDR; use bcrypt)</li>
+                            <li class="fragment">Encrypt all sensitive data at rest</li>
+                            <li class="fragment">Don't store sensitive data you don't need</li>
+                            <li class="fragment">Don't log secrets (e.g. passwords, keys...)</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section data-background="https://images.unsplash.com/photo-1516609728981-ee4529c091b6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80">
+                        <h2>A4:2017-XML External Entities (XXE)</h2>
+                    </section>
+                    <section>
+                        <h1>Use JSON</h1>
+                        <p class="fragment">Stop using XML</p>
+                        <p class="fragment">It's not like you wanted to use it, anyway.</p>
+                    </section>
+                </section>
+                <section>
+                    <section data-background="https://images.unsplash.com/photo-1511360823-5c672a170787?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1949&q=80">
+                        <h2>A5:2017-Broken Access Control</h2>
+                    </section>
+                    <section>
+                        <h2>My 2 cents</h2>
+                        <p>Very tough to check.</p>
+                        <p>Requires you to be very vigilant, since it's a very dangerous flaw.</p>
+                    </section>
+                    <section data-auto-animate>
+                        <pre data-id="code-animation"><code class="java" data-trim data-line-numbers>
+@DeleteMapping("/user/{uuid}")
+public void deleteUser(@PathVariable("uuid") String uuid) {
+  var user = userRepository.findByUuid(uuid);
+  userRepository.delete(user);
+}
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2>Prevent privilege evelation</h2>
+                        <pre data-id="code-animation"><code class="java" data-trim data-line-numbers>
+@Secured("ROLE_ADMIN")
+@DeleteMapping("/user/{uuid}")
+public void deleteUser(@PathVariable("uuid") String uuid) {
+  var user = userRepository.findByUuid(uuid);
+  userRepository.delete(user);
+}
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <pre data-id="code-animation"><code class="java" data-trim data-line-numbers>
+@Secured("ROLE_USER")
+@PostMapping("/user/{uuid}/updatePasswd")
+public User changePassword(@PathVariable("uuid") String uuid, @RequestBody PasswdRequest passwdRequest) {
+  var user = userRepository.findByUuid(uuid);
+  user.setPassword(passwdRequest.getPassword());
+  return userRepository.save(user);
+}
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2>Maintain proper multitenancy</h2>
+                        <pre data-id="code-animation"><code class="java" data-trim data-line-numbers>
+@PreAuthorize("#uuid == authentication.principal.uuid and hasRole('ROLE_USER')")
+@PostMapping("/user/{uuid}/updatePasswd")
+public User changePassword(@PathVariable("uuid") String uuid, @RequestBody PasswdRequest passwdRequest) {
+  var user = userRepository.findByUuid(uuid);
+  user.setPassword(passwdRequest.getPassword());
+  return userRepository.save(user);
+}
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2>Maintain proper multitenancy</h2>
+                        <pre data-id="code-animation"><code class="java" data-trim data-line-numbers>
+@Secured("ROLE_USER")
+@PostMapping("/user/updatePasswd")
+public User changePassword(@RequestBody PasswdRequest passwdRequest) {
+  var user = userRepository.findByUuid(requestCtx.getUuid());
+  user.setPassword(passwdRequest.getPassword());
+  return userRepository.save(user);
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Prevention time</h2>
+                        <ul>
+                            <li>Deny access by default</li>
+                            <li class="fragment">Implement an access control mechanism</li>
+                            <li class="fragment">Enforce ownership instead of allowing anyone to CRUD anything</li>
+                            <li class="fragment">Log access failures and alert admins</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section data-background="https://images.unsplash.com/photo-1582043568773-a7a2b57239f5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80">
+                        <h1>A6:2017-Security Misconfiguration</h1>
+                    </section>
+                    <section>
+                        <h2>My 2 cents</h2>
+                        <p>That's just criminal stupidity at this point.</p>
+                        <p>Super common.</p>
+                    </section>
+                    <section>
+                        <h2>Default settings</h2>
+                        <p><a href="https://www.blockchain.com/btc/address/13zaxGVjj9MNc2jyvDRhLyYpkCh323MsMq">Or why we should all be rich.</a></p>
+                    </section>
+                    <section>
+                        <h2>Stupid things to do</h2>
+                        <ul>
+                            <li>Keep default password (e.g. "admin:admin")</li>
+                            <li class="fragment">Reveal your stacktraces to the world</li>
+                            <li class="fragment">Always disable any "annoying" security feature</li>
+                            <li class="fragment">Keep using that version from 2014 that has been patched 744 times in between</li>
+                            <li class="fragment">Open ports you don't need</li>
+                            <li class="fragment">Have services, pages, accounts you don't need</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <img src="https://i.kym-cdn.com/photos/images/newsfeed/001/431/221/4e7.jpg" alt="dumbfuck juice meme" />
+                    </section>
+                </section>
+                <section>
+                    <section data-background=https://images.unsplash.com/photo-1502217625004-89c03571bcca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80">
+                        <h1 style="text-shadow: 0px 0px 3px black !important;">A7:2017-Cross-Site Scripting (XSS)</h1>
+                    </section>
+                    <section>
+                        <h2>My 2 cents</h2>
+                        <p>With injection & brute force, most popular attack</p>
+                        <p>Very powerful, rather easy to prevent.</p>
+                    </section>
+                    <section data-auto-animate>
+                        <h2>Reflected XSS</h2>
+                        <pre data-id="code-animation"><code class="html" data-trim data-line-numbers>
+                        <span>Welcome, &lt;?php echo $_POST['username'] ?&gt;</span>
+                        </code></pre>
+                    </section>
+                    <section>
+                        <img src="https://i.pinimg.com/originals/9f/3f/82/9f3f821227b1b4a0604f71e55ebedd1e.png" alt="why so serious meme" />
+                    </section>
+                    <section>
+                        <h2>Ok fine, it displays an alert</h2>
+                        <ul>
+                            <li class="fragment">Access the user's cookies</li>
+                            <li class="fragment">Access the user's clipboard</li>
+                            <li class="fragment">Take screenshots</li>
+                            <li class="fragment">Control the user's browser</li>
+                            <li class="fragment">... and even more.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Reflected XSS</h2>
+                        <p>You read user input and display it.</p>
+                        <p>Always sanitize input and filter/escape before output.</p>
+                    </section>
+                    <section>
+                        <h2>Stored XSS</h2>
+                        <p>You store user input and later display it.</p>
+                    </section>
+                    <section>
+                        <h2>DOM Based XSS</h2>
+                        <p>Your frontend uses user input and displays it.</p>
+                        <p>Invisible from the server.</p>
+                    </section>
+                    <section>
+                        <h2>Any XSS</h2>
+                        <p>Can be anywhere.</p>
+                        <pre data-id="code-animation"><code class="html" data-trim data-line-numbers>
+                        <input type='hidden' value="&lt;?php echo $_POST['user'] ?&gt;" />
+
+                        <form action="upload.php" method="post" enctype="multipart/form-data">
+                            <input type="file" name="fileToUpload">
+                            <input type="submit" value="Upload File" name="submit">
+                        </form>
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2>Never Insert Untrusted Data</h2>
+                        <pre data-id="code-animation"><code class="html" data-trim data-line-numbers>
+                        <script>...NEVER PUT UNTRUSTED DATA HERE...</script>
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2>Never Insert Untrusted Data</h2>
+                        <pre data-id="code-animation"><code class="html" data-trim data-line-numbers>
+                        <!--...NEVER PUT UNTRUSTED DATA HERE...-->
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2>Never Insert Untrusted Data</h2>
+                        <pre data-id="code-animation"><code class="html" data-trim data-line-numbers>
+                        &lt;div ...NEVER PUT UNTRUSTED DATA HERE... /&gt;
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2>Never Insert Untrusted Data</h2>
+                        <pre data-id="code-animation"><code class="html" data-trim data-line-numbers>
+                        <NEVER PUT UNTRUSTED DATA HERE... href="/test" />
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2>Never Insert Untrusted Data</h2>
+                        <pre data-id="code-animation"><code class="html" data-trim data-line-numbers>
+                        <style>
+                        ...NEVER PUT UNTRUSTED DATA HERE...
+                        </style>
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Prevention</h2>
+                        <ul>
+                            <li>HTML encode if it goes into HTML</li>
+                            <li class="fragment">Attribute encode if it goes into an attribute</li>
+                            <li class="fragment">Javascript encode if it goes into a script</li>
+                            <li class="fragment">CSS encode if it goes to CSS</li>
+                            <li class="fragment">URL encode if it goes in an URL</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Good news</h2>
+                        <ul>
+                            <li>Modern frameworks handle this (reactjs etc)</li>
+                            <li>Cookies can be protected (HttpOnly)</li>
+                            <li>Content Security Policy (CSP) can limit damage</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <img src="https://www.worldoffemale.com/wp-content/uploads/2020/04/bored-meme-16042063.jpg" alt="bored sponge bob" />
+                    </section>
+                </section>
+                <section>
+                    <section data-background="https://images.unsplash.com/photo-1547190027-9156686aa2f0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80">
+                        <h1>A8:2017-Insecure Deserialization</h1>
+                    </section>
+                    <section>
+                        <h2>My 2 cents</h2>
+                        <p>Requires targeted attack, not so common.</p>
+                        <p>Not so frequent, but can be very nasty.</p>
+                    </section>
+                    <section>
+                        <h2>Prevention</h2>
+                        <ul>
+                            <li>Only rely on primitive data types</li>
+                            <li class="fragment">Implement integrity checks</li>
+                            <li class="fragment">Log & monitor well</li>
+                            <li class="fragment">Isolate the deserialization process</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section data-background="https://images.unsplash.com/photo-1592488831514-7eccdf7c35a2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1952&q=80">
+                        <h1>A9:2017-Using Components with Known Vulnerabilities</h1>
+                    </section>
+                    <section>
+                        <h2>My 2 cents</h2>
+                        <p>Super easy to fix.</p>
+                        <p>Can be very dangerous and make you a nice target.</p>
+                    </section>
+                    <section>
+                        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flh3.googleusercontent.com%2F-CY9ATg-JWfA%2FTXDMo7brrxI%2FAAAAAAAABN8%2FZkUVqPnthlk%2Fs1600%2FInj3ct0r%2B%25252C%2BMilw0rm%2Bmoved%2Bto%2Bnew%2Bdomain%2B1337day.com%2B%252521.jpg&f=1&nofb=1" alt="milw0rm" />
+                    </section>
+                    <section>
+                        <h2>Prevention</h2>
+                        <ul>
+                            <li>Remove unused dependencies</li>
+                            <li class="fragment">Use tools to automate dependencies checks</li>
+                            <li class="fragment">Only rely on trusted sources</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section data-background="https://images.unsplash.com/photo-1591963764432-04f2ce0c8373?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1949&q=80">
+                        <h1>A10:2017-Insufficient Logging & Monitoring</h1>
+                    </section>
+                    <section>
+                        <h2>My 2 cents</h2>
+                        <p>Critical to our industry</p>
+                        <p>In case of PCI DSS, it is actually mandatory</p>
+                    </section>
+                    <section>
+                        <h2>Prevention</h2>
+                        <ul>
+                            <li>Log any auth failure, input validation failure</li>
+                            <li class="fragment">Centralize logs</li>
+                            <li class="fragment">Make logs impossible to tamper/delete</li>
+                            <li class="fragment">Use real time monitoring tools</li>
+                            <li class="fragment">Set up alerts for some security events</li>
+                        </ul>
                     </section>
                 </section>
             </div>
